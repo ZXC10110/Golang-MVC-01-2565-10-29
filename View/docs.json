@@ -1,0 +1,51 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+      "title": "Golang MVC Structure",
+      "version": "1.0.11"
+    },
+    "tags": [
+      {
+        "name": "Plagiarism",
+        "description": "Testing of MVC's structure"
+      }
+    ],
+    "paths": {
+      "/getPlagiarism": {
+        "get": {
+          "tags": [
+            "Plagiarism"
+          ],
+          "summary": "get Plagiarism",
+          "responses": {
+            "201": {
+              "description": "get Successful",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Plagiarism"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "components": {
+      "schemas": {
+        "Plagiarism": {
+          "type": "object",
+          "properties": {
+            "pic_no": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          "xml": {
+            "name": "Plagiarism"
+          }
+        }
+      }
+    }
+  }
