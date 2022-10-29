@@ -7,7 +7,7 @@ import (
 	"github.com/zxc10110/mvc_63050096_2565_1/Config"
 )
 
-//createPic
+//create feed
 func CreateFeed(feedback *Feedback) (err error) {
 	if err = Config.DB.Create(&feedback).Error; err != nil {
 		return
@@ -18,10 +18,10 @@ func CreateFeed(feedback *Feedback) (err error) {
 //update
 func UpdateFeed(req *Feedback) (err error) {
 	if err = Config.DB.Table("Test.Feedback").
-		Where("ref_id = ? AND feedback = ? OR feedback = ?", req.RefId, "open", "escalate").
+		Where("ref_id = ? AND feedback_status = ? OR feedback_status = ?", req.RefId, "open", "escalate").
 		Update(map[string]interface{}{
-			"time_stamp": time.Now(),
-			"feedback":   "close",
+			"time_stamp":      time.Now(),
+			"feedback_status": "close",
 		}).
 		Error; err != nil {
 		return
@@ -32,10 +32,10 @@ func UpdateFeed(req *Feedback) (err error) {
 //admin update
 func AdminUpdate(req *Feedback) (err error) {
 	if err = Config.DB.Table("Test.Feedback").
-		Where("ref_id = ? AND feedback = ?", req.RefId, "open").
+		Where("ref_id = ? AND feedback_status = ?", req.RefId, "open").
 		Update(map[string]interface{}{
-			"time_stamp": time.Now(),
-			"feedback":   "escalate",
+			"time_stamp":      time.Now(),
+			"feedback_status": "escalate",
 		}).
 		Error; err != nil {
 		return
@@ -43,10 +43,19 @@ func AdminUpdate(req *Feedback) (err error) {
 	return
 }
 
-//get feedback open
+//get feedback open escalate
 func GetFeedOpen() (feed []Feedback, err error) {
-	if err = Config.DB.Where("feedback = ? or feedback = ?", "open", "escalate").
-		Order("feedback").
+	if err = Config.DB.Where("feedback_status = ?", "open").
+		Find(&feed).Error; err != nil {
+		return
+	}
+	return
+}
+
+//get feedback open escalate
+func GetFeedOpenEscalate() (feed []Feedback, err error) {
+	if err = Config.DB.Where("feedback_status = ? or feedback_status = ?", "open", "escalate").
+		Order("feedback_status").
 		Find(&feed).Error; err != nil {
 		return
 	}
@@ -55,7 +64,7 @@ func GetFeedOpen() (feed []Feedback, err error) {
 
 //get feedback close
 func GetFeedClose() (feed []Feedback, err error) {
-	if err = Config.DB.Where("feedback = ?", "close").
+	if err = Config.DB.Where("feedback_status = ?", "close").
 		Find(&feed).Error; err != nil {
 		return
 	}

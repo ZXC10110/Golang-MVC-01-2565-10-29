@@ -4,5 +4,6 @@ CREATE TABLE Test.Feedback (
     last_name varchar(255),
     email varchar(255),
     feedback varchar(255),
+    feedback_status varchar(255),
     time_stamp DATETIME
 )

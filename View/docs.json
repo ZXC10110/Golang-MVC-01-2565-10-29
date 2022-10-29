@@ -146,16 +146,20 @@
           "type": "object",
           "properties": {
             "first_name": {
-              "type": "string"
+              "type": "string",
+              "example": "Mercedes"
             },
             "last_name": {
-              "type": "string"
+              "type": "string",
+              "example": "Benz"
             },
             "email": {
-              "type": "string"
+              "type": "string",
+              "example": "Mercedes@bmail.com"
             },
             "feedback": {
-              "type": "string"
+              "type": "string",
+              "example":"Good"
             }
           },
           "xml": {
@@ -179,6 +183,10 @@
             },
             "feedback": {
               "type": "string"
+            },
+            "feedback_status": {
+              "type": "string",
+              "example":""
             },
             "time_stamp": {
               "type": "string"
@@ -206,6 +214,10 @@
             "feedback": {
               "type": "string"
             },
+            "feedback_status": {
+              "type": "string",
+              "example":""
+            },
             "time_stamp": {
               "type": "string"
             }
@@ -231,6 +243,10 @@
             },
             "feedback": {
               "type": "string"
+            },
+            "feedback_status": {
+              "type": "string",
+              "example":""
             },
             "time_stamp": {
               "type": "string"

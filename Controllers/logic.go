@@ -9,6 +9,7 @@ import (
 	"github.com/zxc10110/mvc_63050096_2565_1/Models"
 )
 
+//create unique id
 func genShortUUID() (id string) {
 	id = shortuuid.New()
 	return id
@@ -19,16 +20,18 @@ func CreateFeedback(c *gin.Context) {
 	var req Models.Feedback
 	c.BindJSON(&req)
 	feedback := Models.Feedback{
-		RefId:     genShortUUID(),
-		FirstName: req.FirstName,
-		LastName:  req.LastName,
-		Email:     req.Email,
-		Feedback:  "open",
-		TimeStamp: time.Now(),
+		RefId:          genShortUUID(),
+		FirstName:      req.FirstName,
+		LastName:       req.LastName,
+		Email:          req.Email,
+		Feedback:       req.Feedback,
+		FeedbackStatus: "open",
+		TimeStamp:      time.Now(),
 	}
 	//call pugin to create feedback
 	er := Models.CreateFeed(&feedback)
 	if er != nil {
+		//if can not create return this
 		c.JSON(http.StatusNotFound, "ไม่พบข้อมูล")
 		return
 	} else {
@@ -50,26 +53,28 @@ func UpdateFeedback(c *gin.Context) {
 	diff := dateEscalate.Hours()
 
 	//condition
-	if req.Feedback == "close" { //if user update by changing feedback to "close"
+	if req.FeedbackStatus == "close" { //if user update by changing feedback to "close"
 		//call pugin to update to database
 		er := Models.UpdateFeed(&req)
 		if er != nil {
+			//if can not update return this
 			c.JSON(http.StatusNotFound, "ไม่พบข้อมูล")
 			return
 		}
 		//print result
 		result := Models.Feedback{
-			RefId:     req.RefId,
-			FirstName: req.FirstName,
-			LastName:  req.LastName,
-			Email:     req.Email,
-			Feedback:  "close",
-			TimeStamp: req.TimeStamp,
+			RefId:          req.RefId,
+			FirstName:      req.FirstName,
+			LastName:       req.LastName,
+			Email:          req.Email,
+			Feedback:       req.FeedbackStatus,
+			FeedbackStatus: "close",
+			TimeStamp:      req.TimeStamp,
 		}
 		c.JSON(http.StatusOK, result)
 		return
 
-	} else if diff > 168 && req.Feedback == "open" { //not modified but date > 7
+	} else if diff > 168 && req.FeedbackStatus == "open" { //not modified but date > 7
 		//call pugin to update to database
 		er := Models.UpdateFeed(&req)
 		if er != nil {
@@ -78,12 +83,13 @@ func UpdateFeedback(c *gin.Context) {
 		}
 		//print result
 		result := Models.Feedback{
-			RefId:     req.RefId,
-			FirstName: req.FirstName,
-			LastName:  req.LastName,
-			Email:     req.Email,
-			Feedback:  "close",
-			TimeStamp: req.TimeStamp,
+			RefId:          req.RefId,
+			FirstName:      req.FirstName,
+			LastName:       req.LastName,
+			Email:          req.Email,
+			Feedback:       req.Feedback,
+			FeedbackStatus: "close",
+			TimeStamp:      req.TimeStamp,
 		}
 		c.JSON(http.StatusOK, result)
 		return
@@ -107,12 +113,13 @@ func AdminUpdate(c *gin.Context) {
 	} else {
 		//print result
 		result := Models.Feedback{
-			RefId:     req.RefId,
-			FirstName: req.FirstName,
-			LastName:  req.LastName,
-			Email:     req.Email,
-			Feedback:  "escalate",
-			TimeStamp: req.TimeStamp,
+			RefId:          req.RefId,
+			FirstName:      req.FirstName,
+			LastName:       req.LastName,
+			Email:          req.Email,
+			Feedback:       req.Feedback,
+			FeedbackStatus: "escalate",
+			TimeStamp:      req.TimeStamp,
 		}
 		c.JSON(http.StatusOK, result)
 		return
@@ -121,7 +128,7 @@ func AdminUpdate(c *gin.Context) {
 
 func GetFeedBack(c *gin.Context) {
 	//call pugin
-	open, er := Models.GetFeedOpen()
+	openEscalate, er := Models.GetFeedOpenEscalate()
 	if er != nil {
 		c.JSON(http.StatusNotFound, "ไม่พบข้อมูล")
 		return
@@ -131,28 +138,41 @@ func GetFeedBack(c *gin.Context) {
 	close, err := Models.GetFeedClose()
 	if err != nil {
 		return
-	} else {
-		//group output
-		openFeed := Models.GetFeedBack{
-			Status:   "Open And Escalate",
-			FeedBack: open,
-		}
+	}
 
-		//group output
-		closeFeed := Models.GetFeedBack{
-			Status:   "Close",
-			FeedBack: close,
-		}
-
-		//group all output
-		groupAll := Models.GetAllFeedBack{
-			OpenEscalateFeedback: openFeed,
-			CloseFeedback:        closeFeed,
-		}
-
-		//print output
-		c.JSON(http.StatusOK, groupAll)
+	//call pugin
+	open, err := Models.GetFeedOpen()
+	if err != nil {
 		return
 	}
+
+	//group output
+	openFeed := Models.GetFeedBack{
+		Status:   "Open",
+		FeedBack: open,
+	}
+
+	//group output
+	openEscalateFeed := Models.GetFeedBack{
+		Status:   "Open And Escalate",
+		FeedBack: openEscalate,
+	}
+
+	//group output
+	closeFeed := Models.GetFeedBack{
+		Status:   "Close",
+		FeedBack: close,
+	}
+
+	//group all output
+	groupAll := Models.GetAllFeedBack{
+		OpenEscalateFeedback: openEscalateFeed,
+		CloseFeedback:        closeFeed,
+		OpenFeedback:         openFeed,
+	}
+
+	//print output
+	c.JSON(http.StatusOK, groupAll)
+	return
 
 }

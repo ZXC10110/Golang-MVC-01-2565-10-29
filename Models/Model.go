@@ -7,12 +7,13 @@ func (b *Feedback) TableName() string {
 }
 
 type Feedback struct {
-	RefId     string    `json:"ref_id"`
-	FirstName string    `json:"first_name"`
-	LastName  string    `json:"last_name"`
-	Email     string    `json:"email"`
-	Feedback  string    `json:"feedback"`
-	TimeStamp time.Time `json:"time_stamp"`
+	RefId          string    `json:"ref_id"`
+	FirstName      string    `json:"first_name"`
+	LastName       string    `json:"last_name"`
+	Email          string    `json:"email"`
+	Feedback       string    `json:"feedback"`
+	FeedbackStatus string    `json:"feedback_status"`
+	TimeStamp      time.Time `json:"time_stamp"`
 }
 
 type GetFeedBack struct {
@@ -23,4 +24,5 @@ type GetFeedBack struct {
 type GetAllFeedBack struct {
 	OpenEscalateFeedback GetFeedBack
 	CloseFeedback        GetFeedBack
+	OpenFeedback         GetFeedBack
 }

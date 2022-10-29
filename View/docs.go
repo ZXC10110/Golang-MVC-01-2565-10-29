@@ -5,13 +5,13 @@ import "github.com/swaggo/swag"
 const docTemplate = `{
   "openapi": "3.0.3",
   "info": {
-    "title": "Golang MVC 2565 ข้อที่ 2 วันเสาร์ที่ 29 ตุลาคม 2565",
+    "title": "Golang MVC Structure",
     "version": "1.0.11"
   },
   "tags": [
     {
       "name": "feedback",
-      "description": "MVC VIEW FOR FEEDBACK 63050096_2565_1"
+      "description": "Testing of MVC's structure"
     }
   ],
   "paths": {
@@ -150,16 +150,20 @@ const docTemplate = `{
         "type": "object",
         "properties": {
           "first_name": {
-            "type": "string"
+            "type": "string",
+            "example": "Mercedes"
           },
           "last_name": {
-            "type": "string"
+            "type": "string",
+            "example": "Benz"
           },
           "email": {
-            "type": "string"
+            "type": "string",
+            "example": "Mercedes@bmail.com"
           },
           "feedback": {
-            "type": "string"
+            "type": "string",
+            "example":"Good"
           }
         },
         "xml": {
@@ -183,6 +187,10 @@ const docTemplate = `{
           },
           "feedback": {
             "type": "string"
+          },
+          "feedback_status": {
+            "type": "string",
+            "example":""
           },
           "time_stamp": {
             "type": "string"
@@ -210,6 +218,10 @@ const docTemplate = `{
           "feedback": {
             "type": "string"
           },
+          "feedback_status": {
+            "type": "string",
+            "example":""
+          },
           "time_stamp": {
             "type": "string"
           }
@@ -235,6 +247,10 @@ const docTemplate = `{
           },
           "feedback": {
             "type": "string"
+          },
+          "feedback_status": {
+            "type": "string",
+            "example":""
           },
           "time_stamp": {
             "type": "string"
