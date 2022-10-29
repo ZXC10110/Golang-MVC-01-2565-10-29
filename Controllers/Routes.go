@@ -10,7 +10,10 @@ import (
 //SetupRouter ... Configure routes
 func SetupRouter() *gin.Engine {
 	r := gin.Default()
-	r.GET("/getPlagiarism", GetPlagiatism)
+	r.POST("/createFeedback", CreateFeedback)
+	r.GET("/getFeedback", GetFeedBack)
+	r.POST("/updateFeedback", UpdateFeedback)
+	r.POST("/adminUpdate", AdminUpdate)
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	return r
 }

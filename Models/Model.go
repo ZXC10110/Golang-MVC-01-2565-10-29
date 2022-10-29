@@ -2,19 +2,25 @@ package Models
 
 import "time"
 
-func (b *PlagiarismResult) TableName() string {
-	return "PlagiarismResult"
+func (b *Feedback) TableName() string {
+	return "Feedback"
 }
 
-type PlagiarismResult struct {
-	DateTime        time.Time `json:"date_time"`
-	Tid             int       `json:"tid"`
-	FirstName       string    `json:"first_name"`
-	LastName        string    `json:"last_name"`
-	SimilarityScore float64   `json:"similarity_score"`
+type Feedback struct {
+	RefId     string    `json:"ref_id"`
+	FirstName string    `json:"first_name"`
+	LastName  string    `json:"last_name"`
+	Email     string    `json:"email"`
+	Feedback  string    `json:"feedback"`
+	TimeStamp time.Time `json:"time_stamp"`
 }
 
-type GetPlagiatism struct {
-	Student01 PlagiarismResult
-	Student02 PlagiarismResult
+type GetFeedBack struct {
+	Status   string `json:"status"`
+	FeedBack []Feedback
+}
+
+type GetAllFeedBack struct {
+	OpenEscalateFeedback GetFeedBack
+	CloseFeedback        GetFeedBack
 }

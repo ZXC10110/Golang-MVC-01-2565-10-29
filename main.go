@@ -19,7 +19,7 @@ func main() {
 		fmt.Println("Status:", err)
 	}
 	defer Config.DB.Close()
-	Config.DB.AutoMigrate(&Models.PlagiarismResult{})
+	Config.DB.AutoMigrate(&Models.Feedback{})
 	r := Routes.SetupRouter()
 	//running
 	r.Run()
